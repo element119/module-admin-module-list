@@ -1,12 +1,12 @@
 {
-    "name": "element119/module-name",
+    "name": "element119/module-admin-module-list",
     "type": "magento2-module",
-    "description": "A Magento 2 module that...",
+    "description": "A Magento 2 module that shows which modules are installed and whether they are enabled.",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Kiel Pykett",
-            "email": "pykettk@gmail.com"
+            "name": "element119",
+            "email": "hello@element119.co.uk"
         }
     ],
     "require": {
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Element119\\ModuleName\\": ""
+            "Element119\\AdminModuleList\\": ""
         },
         "files": [
             "registration.php"
