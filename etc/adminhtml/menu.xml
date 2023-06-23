@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Element119_AdminModuleList::group"
+             title="Modules"
+             translate="title"
+             module="Element119_AdminModuleList"
+             sortOrder="1000"
+             parent="Magento_Backend::system"
+             resource="Element119_AdminModuleList::view"/>
+        <add id="Element119_AdminModuleList::view"
+             title="Module Information"
+             translate="title"
+             module="Element119_AdminModuleList"
+             sortOrder="1000"
+             parent="Element119_AdminModuleList::group"
+             action="modules/index/index/"
+             resource="Element119_AdminModuleList::view"/>
+    </menu>
+</config>
