@@ -1,7 +1,7 @@
 {
     "name": "element119/module-admin-module-list",
     "type": "magento2-module",
-    "description": "A Magento 2 module that shows which modules are installed and whether they are enabled.",
+    "description": "A Magento 2 module that shows which modules are installed, where, and whether they are enabled.",
     "license": "proprietary",
     "authors": [
         {
@@ -10,7 +10,10 @@
         }
     ],
     "require": {
-        "magento/module-name": "^100.0"
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "hyva-themes/module-magento2-admin": "^1.1",
+        "magento/framework": "*",
+        "magento/module-backend": "*"
     },
     "autoload": {
         "psr-4": {
