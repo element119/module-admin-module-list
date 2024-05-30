@@ -15,6 +15,7 @@
             <column name="name" type="long_text"/>
             <column name="status"/>
             <column name="installation_method"/>
+            <column name="version"/>
         </include>
     </columns>
     <navigation>
@@ -27,6 +28,7 @@
             <filter column="name"/>
             <filter column="status"/>
             <filter column="installation_method"/>
+            <filter column="version"/>
         </filters>
         <pager>
             <defaultPageSize>200</defaultPageSize>

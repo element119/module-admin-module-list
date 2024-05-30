@@ -114,6 +114,7 @@ class ModuleRegistry implements HyvaGridArrayProviderInterface
             'name' => $moduleName,
             'status' => $this->getModuleStatus($moduleName),
             'installation_method' => (string)__('Composer'),
+            'version' => $moduleInfo['version'] ?? (string)__('Unknown'),
         ];
     }
 
@@ -123,6 +124,7 @@ class ModuleRegistry implements HyvaGridArrayProviderInterface
             'name' => $moduleName,
             'status' => $this->getModuleStatus($moduleName),
             'installation_method' => (string)__('Local'),
+            'version' => (string)__('Unknown'),
         ];
     }
 
