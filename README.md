@@ -11,17 +11,17 @@
 
 ✔️ Easily identify which modules are enabled and disabled
 
-✔️ See which modules are installed via Composer and which are installed locally
+✔️ Identify which modules are installed via Composer and which are installed locally
 
-✔️ Provides configuration options to handle non-standard Magento module installation locations
+✔️ View corresponding Composer package names and versions
 
 ✔️ Customise the grid view with filters, sorting, pagination, and column visibility
 
 ✔️ Export grid data in CSV, XML, or XLSX formats
 
-✔️ Built in accordance with Magento best practises
+✔️ Supports Magento Open Source, Adobe Commerce, and Mage-OS
 
-✔️ Dedicated module configuration section secured with custom admin user controls
+✔️ Built in accordance with Magento best practises
 
 ✔️ Seamless integration with Magento
 
@@ -61,28 +61,12 @@ php bin/magento setup:upgrade
 <br/>
 
 ## 📚 User Guide
-Configuration for this module can be found in the Magento admin under `Stores -> Settings -> Configuration -> Advanced
--> System -> Modules`.
-
-<br>
-
 ### Module List
 The list of modules, their status, and how they are installed in the application can be seen in the admin by navigating
 to `System -> Modules -> Module Information`.
 
 <br>
 
-### Directory Configuration
-The names of the directories in which modules can be found can be configured in case something other than the standard
-`vendor/` and `app/code/` directories are used.
-
-<br>
-
 ## 📸 Screenshots & GIFs
-### Admin Configuration
-![admin-config](https://github.com/element119/module-admin-module-list/assets/40261741/284c9b4a-1280-4d59-b936-b804674d4e35)
-
-<br>
-
 ### Module List
-![admin-grid](https://github.com/element119/module-admin-module-list/assets/40261741/c697cb11-5fe5-41e6-b91b-8f60f5ec45c1)
+![admin-grid](https://github.com/element119/module-admin-module-list/assets/40261741/f8822c00-7854-4828-ae3d-f93322a6b1e5)
