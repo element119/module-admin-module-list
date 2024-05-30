@@ -7,42 +7,97 @@ declare(strict_types=1);
 
 namespace Element119\AdminModuleList\Model;
 
-use Element119\AdminModuleList\Scope\ModuleConfig;
+use Exception;
 use Hyva\Admin\Api\HyvaGridArrayProviderInterface;
-use Magento\Framework\Module\Dir;
+use Magento\Framework\Component\ComponentRegistrar;
+use Magento\Framework\Component\ComponentRegistrarInterface;
+use Magento\Framework\Composer\MagentoComposerApplicationFactory;
 use Magento\Framework\Module\FullModuleList;
 use Magento\Framework\Module\Manager;
+use Psr\Log\LoggerInterface;
 
 class ModuleRegistry implements HyvaGridArrayProviderInterface
 {
     public function __construct(
-        private readonly ModuleConfig $moduleConfig,
-        private readonly Dir $moduleDirectory,
         private readonly FullModuleList $moduleList,
         private readonly Manager $moduleManager,
+        private readonly MagentoComposerApplicationFactory $composerApplicationFactory,
+        private readonly ComponentRegistrarInterface $componentRegistrar,
+        private readonly LoggerInterface $logger,
     ) { }
 
     public function getHyvaGridData(): array
     {
+        $moduleList = $this->getComposerModuleList();
+
+        return array_merge($moduleList, $this->getLocalModuleList(array_keys($moduleList)));
+    }
+
+    public function getComposerModuleList(): array
+    {
         $moduleList = [];
-        $vendorDir = $this->moduleConfig->getVendorDirName();
-        $localDir = $this->moduleConfig->getLocalModuleDirName();
+        $modulePaths = $this->componentRegistrar->getPaths(ComponentRegistrar::MODULE);
+        $composerPackageData = $this->getComposerPackageData();
 
-        foreach ($this->getAllModules() as $module => $data) {
-            $moduleDir = $this->moduleDirectory->getDir($module);
-            $installMethod = 'Unknown';
+        foreach ($composerPackageData as $info) {
+            $potentialModuleNames = array_filter(
+                $modulePaths,
+                fn($installPath) => str_contains($installPath, $info['name'])
+            );
 
-            if (str_contains($moduleDir, $vendorDir)) {
-                $installMethod = 'Composer';
-            } elseif (str_contains($moduleDir, $localDir)) {
-                $installMethod = 'Local';
+            if (count($potentialModuleNames) > 1) {
+                foreach ($potentialModuleNames as $potentialModuleName => $installPath) {
+                    $moduleList[$potentialModuleName] = $this->getComposerModuleData($potentialModuleName, $info);
+                }
+            } elseif ($moduleName = array_key_first($potentialModuleNames)) {
+                $moduleList[$moduleName] = $this->getComposerModuleData($moduleName, $info);
+            }
+        }
+
+        return $moduleList;
+    }
+
+    public function getComposerPackageData(): array
+    {
+        $packageData = [];
+        $composerApplication = $this->composerApplicationFactory->create();
+
+        try {
+            $composer = $composerApplication->createComposer();
+        } catch (Exception $e) {
+            $this->logger->error(sprintf(
+                'Could not create Composer application instance when attempting to read package information: %s',
+                $e->getMessage()
+            ));
+
+            return $packageData;
+        }
+
+        $composerLocker = $composer->getLocker();
+
+        if ($composerLocker->isLocked()) {
+            $lockData = $composerLocker->getLockData();
+
+            if (array_key_exists('packages', $lockData)) {
+                $packageData = $lockData['packages'];
             }
 
-            $moduleList[$module] = [
-                'name' => $module,
-                'status' => __($this->moduleManager->isEnabled($module) ? 'Enabled' : 'Disabled'),
-                'installation_method' => __($installMethod),
-            ];
+            if (array_key_exists('packages-dev', $lockData)) {
+                $packageData = array_merge($packageData, $lockData['packages-dev']);
+            }
+        }
+
+        return $packageData;
+    }
+
+    public function getLocalModuleList(array $excludes = []): array
+    {
+        $moduleList = [];
+
+        if ($localModules = array_diff(array_keys($this->getAllModules()), $excludes)) {
+            foreach ($localModules as $moduleName) {
+                $moduleList[$moduleName] = $this->getLocalModuleData($moduleName);
+            }
         }
 
         return $moduleList;
@@ -51,5 +106,28 @@ class ModuleRegistry implements HyvaGridArrayProviderInterface
     public function getAllModules(): array
     {
         return $this->moduleList->getAll();
+    }
+
+    private function getComposerModuleData(string $moduleName, array $moduleInfo): array
+    {
+        return [
+            'name' => $moduleName,
+            'status' => $this->getModuleStatus($moduleName),
+            'installation_method' => (string)__('Composer'),
+        ];
+    }
+
+    private function getLocalModuleData(string $moduleName): array
+    {
+        return [
+            'name' => $moduleName,
+            'status' => $this->getModuleStatus($moduleName),
+            'installation_method' => (string)__('Local'),
+        ];
+    }
+
+    private function getModuleStatus(string $moduleName): string
+    {
+        return (string)__($this->moduleManager->isEnabled($moduleName) ? 'Enabled' : 'Disabled');
     }
 }
