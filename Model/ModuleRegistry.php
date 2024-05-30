@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Element119\AdminModuleList\Model;
 
 use Exception;
-use Hyva\Admin\Api\HyvaGridArrayProviderInterface;
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Component\ComponentRegistrarInterface;
 use Magento\Framework\Composer\MagentoComposerApplicationFactory;
@@ -16,7 +15,7 @@ use Magento\Framework\Module\FullModuleList;
 use Magento\Framework\Module\Manager;
 use Psr\Log\LoggerInterface;
 
-class ModuleRegistry implements HyvaGridArrayProviderInterface
+class ModuleRegistry
 {
     public function __construct(
         private readonly FullModuleList $moduleList,
@@ -25,13 +24,6 @@ class ModuleRegistry implements HyvaGridArrayProviderInterface
         private readonly ComponentRegistrarInterface $componentRegistrar,
         private readonly LoggerInterface $logger,
     ) { }
-
-    public function getHyvaGridData(): array
-    {
-        $moduleList = $this->getComposerModuleList();
-
-        return array_merge($moduleList, $this->getLocalModuleList(array_keys($moduleList)));
-    }
 
     public function getComposerModuleList(): array
     {
