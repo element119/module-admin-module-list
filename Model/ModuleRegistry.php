@@ -117,7 +117,6 @@ class ModuleRegistry
             'name' => $moduleName,
             'status' => $this->getModuleStatus($moduleName),
             'installation_method' => (string)__('Local'),
-            'version' => (string)__('Unknown'),
         ];
     }
 
