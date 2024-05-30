@@ -107,6 +107,7 @@ class ModuleRegistry
             'status' => $this->getModuleStatus($moduleName),
             'installation_method' => (string)__('Composer'),
             'version' => $moduleInfo['version'] ?? (string)__('Unknown'),
+            'composer_package' => $moduleInfo['name'],
         ];
     }
 

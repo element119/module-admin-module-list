@@ -15,6 +15,7 @@
             <column name="name" type="long_text"/>
             <column name="status"/>
             <column name="installation_method"/>
+            <column name="composer_package" type="long_text"/>
             <column name="version"/>
         </include>
     </columns>
@@ -28,6 +29,7 @@
             <filter column="name"/>
             <filter column="status"/>
             <filter column="installation_method"/>
+            <filter column="composer_package"/>
             <filter column="version"/>
         </filters>
         <pager>
