@@ -2,7 +2,7 @@
     "name": "element119/module-admin-module-list",
     "type": "magento2-module",
     "description": "A Magento 2 module that shows which modules are installed, where, and whether they are enabled.",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "element119",
