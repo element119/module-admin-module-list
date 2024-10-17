@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © element119. All rights reserved.
+ * See LICENCE.txt for licence details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Element119_AdminModuleList::css/module.css"/>
+    </head>
+    <body>
+        <referenceContainer name="legal.system">
+            <block name="module.list.link"
+                   template="Element119_AdminModuleList::module-list-link.phtml"
+                   after="version"/>
+        </referenceContainer>
+    </body>
+</page>
