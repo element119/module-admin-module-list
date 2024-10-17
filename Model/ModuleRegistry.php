@@ -100,7 +100,7 @@ class ModuleRegistry
         return $this->moduleList->getAll();
     }
 
-    private function getComposerModuleData(string $moduleName, array $moduleInfo): array
+    public function getComposerModuleData(string $moduleName, array $moduleInfo): array
     {
         return [
             'name' => $moduleName,
@@ -111,7 +111,7 @@ class ModuleRegistry
         ];
     }
 
-    private function getLocalModuleData(string $moduleName): array
+    public function getLocalModuleData(string $moduleName): array
     {
         return [
             'name' => $moduleName,
@@ -120,8 +120,10 @@ class ModuleRegistry
         ];
     }
 
-    private function getModuleStatus(string $moduleName): string
+    public function getModuleStatus(string $moduleName): string
     {
-        return (string)__($this->moduleManager->isEnabled($moduleName) ? 'Enabled' : 'Disabled');
+        return $this->moduleManager->isEnabled($moduleName)
+            ? (string)__('Enabled')
+            : (string)__('Disabled');
     }
 }
